@@ -1,12 +1,14 @@
+const { ObjectId } = require('mongodb');
+
 module.exports = (mongoClient, intents = 5) => {
   const evaluator = (docs) => {
     function* validateExistence() {
-      let id = new MongoClient.ObjectId();
+      let id = new ObjectId();
       for (let i = 0; i < intents; i++) {
         yield mongoClient.findOne({ _id: id })
           .then((res) => {
             if (res) {
-              id = new MongoClient.ObjectId();
+              id = new ObjectId();
               return false;
             } else {
               throw 'Existis _id';
